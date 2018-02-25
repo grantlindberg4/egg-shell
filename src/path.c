@@ -15,3 +15,16 @@ char** getPaths(char* pathList, int* i) {
     
     return paths;
 }
+
+/*TODO Iterate through pathList
+bool isInPath(char * pathList, char * cmd) {
+	assert(pathList != NULL);
+	int i = 0;
+	while (i < MAX_PATHS) {
+		if (strcmp(pathList[i], cmd) == 0)
+			return true;
+		if (pathList[i] == NULL)
+			break;
+	}
+	return false;
+}*/

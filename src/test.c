@@ -8,6 +8,10 @@ void test_user_input() {
     printf("Testing user input...\n");
     char* line = readline("esh>");
     printf("%s\n", line);
+
+	/*TODO
+	if (strncmp("exit", line, strlen("exit"))
+		exit(0);*/
 }
 
 void test_get_paths() {

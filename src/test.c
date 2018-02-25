@@ -5,13 +5,14 @@
 #include "current_directory.h"
 
 void test_user_input() {
-    printf("Testing user input...\n");
-    char* line = readline("esh>");
-    printf("%s\n", line);
+	while (true) {
+	    printf("Testing user input...\n");
+	    char* line = readline("esh>");
+	    printf("%s\n", line);
 
-	/*TODO
-	if (strncmp("exit", line, strlen("exit"))
-		exit(0);*/
+		if (strncmp("exit", line, strlen("exit") - 1) == 0)
+			exit(0);
+	}
 }
 
 void test_get_paths() {
@@ -36,8 +37,8 @@ void test_search_current_directory() {
 
 int main() {
     test_user_input();
-    test_get_paths();
-    test_search_current_directory();
+    //test_get_paths();
+    //test_search_current_directory();
 
     return 0;
 }

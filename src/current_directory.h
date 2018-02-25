@@ -16,6 +16,6 @@
 #define MAX_FILE_PATH_LENGTH 4096
 
 bool directoryIsAccessible(char* dirName);
-bool searchCurrentDirectory(char* currentFilePath, char * cmd);
+char* searchCurrentDirectory(char* currentFilePath, char* cmd);
 
 #endif

@@ -25,8 +25,6 @@ void test_get_paths() {
     for(int i = 0; i < numPaths; i++) {
         printf("%s\n", paths[i]);
     }
-	assert(isInPath(paths, "ls") == true);	//TODO
-	printf("Got past \"ls\" command!\n");
 }
 
 void test_search_current_directory() {
@@ -39,15 +37,21 @@ void test_search_current_directory() {
     searchCurrentDirectory(currentDirectoryPath, "ls");	//TODO
 }
 
-int main() {
-    //test_user_input();
-
-    /*char* pathList = getenv("PATH");
+void test_find_command() {
+    printf("Testing finding commands...\n");
+    char* pathList = getenv("PATH");
     int numPaths = 0;
-    char** paths = getPaths(pathList, &numPaths);*/
-	//assert(isInPath(paths, "ls") == true);
+    char** paths = getPaths(pathList, &numPaths);
+	assert(isInPath(paths, "ducks") == NULL);	//TODO
+	assert(isInPath(paths, "ls") != NULL);	//TODO
+	assert(isInPath(paths, "cat") != NULL);	//TODO
+	assert(isInPath(paths, "nc") != NULL);	//TODO
+}
 
-    test_get_paths();
+int main() {
+    // test_user_input();
+    // test_get_paths();
+    test_find_command();
     //test_search_current_directory();
 
     return 0;

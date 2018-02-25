@@ -19,15 +19,16 @@ char** getPaths(char* pathList, int* i) {
 }
 
 /*TODO Iterate through pathList*/
-bool isInPath(char ** paths, char * cmd) {
+char* isInPath(char ** paths, char * cmd) {
 	assert(paths != NULL);
 	int i = 0;
 	while (i < MAX_PATHS) {
-		if (paths[i] == NULL)
+		if(paths[i] == NULL)
 			break;
-		if (searchCurrentDirectory(paths[i], cmd))
-			return true;
+        char* str = NULL;
+		if((str = searchCurrentDirectory(paths[i], cmd)) != NULL)
+			return str;
 		i++;
 	}
-	return false;
+	return NULL;
 }

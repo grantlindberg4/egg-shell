@@ -10,6 +10,6 @@
 
 char** getPaths(char* pathList, int* i);
 
-bool isInPath(char ** paths, char * cmd);
+char* isInPath(char ** paths, char * cmd);
 
 #endif

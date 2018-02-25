@@ -1,4 +1,6 @@
 #include "path.h"
+#include "current_directory.h"
+#include <assert.h>
 
 char** getPaths(char* pathList, int* i) {
     char** paths = (char**)malloc(MAX_PATHS*sizeof(char*));
@@ -16,15 +18,16 @@ char** getPaths(char* pathList, int* i) {
     return paths;
 }
 
-/*TODO Iterate through pathList
-bool isInPath(char * pathList, char * cmd) {
-	assert(pathList != NULL);
+/*TODO Iterate through pathList*/
+bool isInPath(char ** paths, char * cmd) {
+	assert(paths != NULL);
 	int i = 0;
 	while (i < MAX_PATHS) {
-		if (strcmp(pathList[i], cmd) == 0)
-			return true;
-		if (pathList[i] == NULL)
+		if (paths[i] == NULL)
 			break;
+		if (searchCurrentDirectory(paths[i], cmd))
+			return true;
+		i++;
 	}
 	return false;
-}*/
+}

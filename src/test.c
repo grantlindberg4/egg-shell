@@ -10,8 +10,8 @@
 #include "current_directory.h"
 
 void test_user_input() {
+    printf("Testing user input...\n");
 	while (true) {
-	    printf("Testing user input...\n");
 	    char* line = readline("esh>");
 	    printf("%s\n", line);
 
@@ -52,6 +52,7 @@ void test_find_command() {
 }
 
 void test_execute_program() {
+    printf("Testing execv and fork...\n");
     int status;
     char* args[2];
     args[0] = "/bin/ls";
@@ -69,12 +70,41 @@ void test_execute_program() {
     }
 }
 
+void test_parse_commands() {
+    printf("Testing parsing user input...\n");
+    char* line = readline("esh>");
+
+    char** args = NULL;
+    int i = 0;
+    char* next = strtok(line, " ");
+    while(next != NULL) {
+        i++;
+        args = realloc(args, i*sizeof(char*));
+        if(args == NULL) {
+            exit(-1);
+        }
+
+        args[i-1] = next;
+
+        next = strtok(NULL, " ");
+    }
+
+    args = realloc(args, (i+1)*sizeof(char*));
+    args[i] = "\0";
+
+    for(int j = 0; j < i; j++) {
+        printf("%s\n", args[j]);
+    }
+    assert(strcmp(args[i], "\0") == 0);
+}
+
 int main() {
     // test_user_input();
     // test_get_paths();
     // test_find_command();
     //test_search_current_directory();
-    test_execute_program();
+    // test_execute_program();
+    test_parse_commands();
 
     return 0;
 }

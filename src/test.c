@@ -54,7 +54,7 @@ void test_find_command() {
 void test_execute_program() {
     printf("Testing execv and fork...\n");
     int status;
-    char* args[2];
+    char* args[3];
     args[0] = "/bin/ls";
     args[1] = "-l";
     args[2] = NULL;
@@ -98,13 +98,28 @@ void test_parse_commands() {
     assert(strcmp(args[i], "\0") == 0);
 }
 
+void test_background() {	//TODO TEST THIS!
+	printf("Testing background function... \n");
+	//int status;
+	char * args[2];
+	args[0] = "top";
+	args[1] = NULL;
+	if (fork() == 0) { //TODO Could change to if(fork()) {child} else {parent}.
+		execv(args[0], args);
+		fprintf(stderr, "Failed to exec\n");
+	} else {
+		printf("I am the parent, and I am not even going to wait! Hasta la vista, baby!\n");
+	}
+}
+
 int main() {
     // test_user_input();
     // test_get_paths();
     // test_find_command();
     //test_search_current_directory();
-    // test_execute_program();
-    test_parse_commands();
+    //test_execute_program();
+    //test_parse_commands();
+	test_background();
 
     return 0;
 }

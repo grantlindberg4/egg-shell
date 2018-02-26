@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -std=c99 -Wall -pedantic -g
 LDLIBS = -lreadline
-OBJS := $(addprefix build/,path.o current_directory.o)
+OBJS := $(addprefix build/,command.o path.o)
 
 .DEFAULT: all
 

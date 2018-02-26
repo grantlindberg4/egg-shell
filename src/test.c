@@ -6,120 +6,76 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "command.h"
 #include "path.h"
-#include "current_directory.h"
 
-void test_user_input() {
+void testUserInput() {
     printf("Testing user input...\n");
-	while (true) {
-	    char* line = readline("esh>");
-	    printf("%s\n", line);
+    char* line = readline("esh>");
+    int numArgs = 0;
+    char** command = parseInput(line, &numArgs);
 
-		if (strncmp("exit", line, strlen("exit") - 1) == 0)
-			exit(0);
-	}
+    if(strcmp(command[0], "exit") == 0) {
+        printf("You have exited the program\n");
+        exit(0);
+    }
+
+    for(int i = 0; i < numArgs; i++) {
+        printf("%s\n", command[i]);
+    }
+
+    assert(strcmp(command[numArgs], "\0") == 0);
 }
 
-void test_get_paths() {
+void testGetPaths() {
     printf("Testing getting paths...\n");
     char* pathList = getenv("PATH");
     int numPaths = 0;
     char** paths = getPaths(pathList, &numPaths);
+
+    assert(paths != NULL);
     for(int i = 0; i < numPaths; i++) {
         printf("%s\n", paths[i]);
     }
 }
 
-void test_search_current_directory() {
+void testSearchCurrentDirectory() {
     printf("Testing searching current directory...\n");
     char buffer[MAX_FILE_PATH_LENGTH];
-    char* currentDirectoryPath = getcwd(buffer, sizeof(buffer));
-    if(currentDirectoryPath == NULL) {
-        fprintf(stderr, "Error trying to get current directory");
-    }
-    searchCurrentDirectory(currentDirectoryPath, "ls");	//TODO
+    char* path = getcwd(buffer, sizeof(buffer));
+
+    assert(path != NULL);
+    assert(searchDirectory(path, "ls") == NULL);
+    assert(searchDirectory(path, "background_test") != NULL);
 }
 
-void test_find_command() {
+void testFindCommand() {
     printf("Testing finding commands...\n");
     char* pathList = getenv("PATH");
     int numPaths = 0;
     char** paths = getPaths(pathList, &numPaths);
-	assert(isInPath(paths, "ducks") == NULL);	//TODO
-	assert(isInPath(paths, "ls") != NULL);	//TODO
-	assert(isInPath(paths, "cat") != NULL);	//TODO
-	assert(isInPath(paths, "nc") != NULL);	//TODO
+
+    assert(commandExistsInPath(paths, &numPaths, "ducks") == NULL);
+    assert(commandExistsInPath(paths, &numPaths, "ls") != NULL);
+    assert(commandExistsInPath(paths, &numPaths, "cat") != NULL);
+    assert(commandExistsInPath(paths, &numPaths, "nc") != NULL);
 }
 
-void test_execute_program() {
+void testExecuteProgram() {
     printf("Testing execv and fork...\n");
-    int status;
-    char* args[3];
-    args[0] = "/bin/ls";
-    args[1] = "-l";
-    args[2] = NULL;
-    // args[0] = "ducks";
-    // args[1] = NULL;
-
-    if(fork() == 0) {
-        execv(args[0], args);
-        fprintf(stderr, "Failed to exec\n");
-    }
-    else {
-        wait(&status);
-    }
-}
-
-void test_parse_commands() {
-    printf("Testing parsing user input...\n");
     char* line = readline("esh>");
+    int numArgs = 0;
+    char** command = parseInput(line, &numArgs);
 
-    char** args = NULL;
-    int i = 0;
-    char* next = strtok(line, " ");
-    while(next != NULL) {
-        i++;
-        args = realloc(args, i*sizeof(char*));
-        if(args == NULL) {
-            exit(-1);
-        }
-
-        args[i-1] = next;
-
-        next = strtok(NULL, " ");
-    }
-
-    args = realloc(args, (i+1)*sizeof(char*));
-    args[i] = "\0";
-
-    for(int j = 0; j < i; j++) {
-        printf("%s\n", args[j]);
-    }
-    assert(strcmp(args[i], "\0") == 0);
-}
-
-void test_background() {	//TODO TEST THIS!
-	printf("Testing background function... \n");
-	char* args[2];
-	args[0] = "/mnt/c/Users/Grant/Dropbox/WSUV/Spring\ 2018/Operating\ Systems/EggShell/src/background_test";
-	args[1] = NULL;
-	if(fork() == 0) { //TODO Could change to if(fork()) {child} else {parent}.
-		execv(args[0], args);
-		fprintf(stderr, "Failed to exec\n");
-	}
-    else {
-		printf("I am the parent, and I am not even going to wait! Hasta la vista, baby!\n");
-	}
+    execute(command, numArgs);
 }
 
 int main() {
-    // test_user_input();
-    // test_get_paths();
-    // test_find_command();
-    //test_search_current_directory();
-    // test_execute_program();
-    //test_parse_commands();
-	test_background();
+    // testUserInput();
+    // testGetPaths();
+    // testSearchCurrentDirectory();
+    // testFindCommand();
+    testExecuteProgram();
 
     return 0;
 }

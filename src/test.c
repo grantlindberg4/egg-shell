@@ -100,14 +100,14 @@ void test_parse_commands() {
 
 void test_background() {	//TODO TEST THIS!
 	printf("Testing background function... \n");
-	//int status;
-	char * args[2];
-	args[0] = "top";
+	char* args[2];
+	args[0] = "/mnt/c/Users/Grant/Dropbox/WSUV/Spring\ 2018/Operating\ Systems/EggShell/src/background_test";
 	args[1] = NULL;
-	if (fork() == 0) { //TODO Could change to if(fork()) {child} else {parent}.
+	if(fork() == 0) { //TODO Could change to if(fork()) {child} else {parent}.
 		execv(args[0], args);
 		fprintf(stderr, "Failed to exec\n");
-	} else {
+	}
+    else {
 		printf("I am the parent, and I am not even going to wait! Hasta la vista, baby!\n");
 	}
 }
@@ -117,7 +117,7 @@ int main() {
     // test_get_paths();
     // test_find_command();
     //test_search_current_directory();
-    //test_execute_program();
+    // test_execute_program();
     //test_parse_commands();
 	test_background();
 

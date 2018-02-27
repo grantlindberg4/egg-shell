@@ -32,12 +32,6 @@ char** parseInput(char* line, int* numArgs) {
 }
 
 void execute(char** command, int numArgs) {
-    // assert(strcmp(command[numArgs], "\0") == 0);
-    // printf("%d\n", numArgs);
-    // for(int i = 0; i < numArgs; i++) {
-    //     printf("%s\n", command[i]);
-    // }
-    // return;
     assert(command[numArgs] == NULL);
     int status;
 

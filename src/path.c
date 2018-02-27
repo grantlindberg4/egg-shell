@@ -32,13 +32,6 @@ char* searchDirectory(char* currentFilePath, char* command) {
                 return pathToCommand;
             }
         }
-        // else if(curr->d_type == DT_DIR && directoryIsAccessible(curr->d_name)) {
-        //     char* newFilePath = malloc(strlen(currentFilePath) + strlen(curr->d_name) + 2);
-        //     sprintf(newFilePath, "%s/%s", currentFilePath, curr->d_name);
-        //     char* nextDir = searchDirectory(newFilePath, command);
-        //     free(newFilePath);
-        //     return NULL;
-        // }
     }
     closedir(dir);
 

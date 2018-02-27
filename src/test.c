@@ -71,10 +71,10 @@ void testExecuteProgram() {
 }
 
 int main() {
-    // testUserInput();
-    // testGetPaths();
-    // testSearchCurrentDirectory();
-    // testFindCommand();
+    testUserInput();
+    testGetPaths();
+    testSearchCurrentDirectory();
+    testFindCommand();
     testExecuteProgram();
 
     return 0;
